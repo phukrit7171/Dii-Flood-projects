@@ -3,11 +3,38 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const winston = require('winston'); // Add winston for logging
 
 const app = express();
 const port = 3000;
 
+// Setup logger using winston
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.printf(({ timestamp, level, message }) => `${timestamp} ${level}: ${message}`)
+  ),
+  transports: [
+    new winston.transports.Console(), // Log to console
+    new winston.transports.File({ filename: 'app.log' }) // Log to file
+  ],
+});
+
+// Create Logging middleware
+const loggingMiddleware = (req, res, next) => {
+  const start = Date.now();
+
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    logger.info(`${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`);
+  });
+
+  next();
+};
+
 // Middleware
+app.use(loggingMiddleware);
 app.use(express.json());
 app.use(cors());
 
@@ -21,10 +48,10 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to MySQL:', err);
+    logger.error('Error connecting to MySQL:', err);
     return;
   }
-  console.log('Connected to MySQL database');
+  logger.info('Connected to MySQL database');
 });
 
 // Signup route
@@ -34,7 +61,7 @@ app.post('/signup', (req, res) => {
   // Check if user already exists
   connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
     if (err) {
-      console.error('Error checking existing user:', err);
+      logger.error('Error checking existing user:', err);
       return res.status(500).json({ message: 'Internal server error' });
     }
 
@@ -45,7 +72,7 @@ app.post('/signup', (req, res) => {
     // Hash the password
     bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) {
-        console.error('Error hashing password:', err);
+        logger.error('Error hashing password:', err);
         return res.status(500).json({ message: 'Internal server error' });
       }
 
@@ -53,7 +80,7 @@ app.post('/signup', (req, res) => {
       const newUser = { username, password: hashedPassword, name, address, telephone };
       connection.query('INSERT INTO users SET ?', newUser, (err, result) => {
         if (err) {
-          console.error('Error creating new user:', err);
+          logger.error('Error creating new user:', err);
           return res.status(500).json({ message: 'Internal server error' });
         }
 
@@ -70,7 +97,7 @@ app.post('/signin', (req, res) => {
   // Find user
   connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
     if (err) {
-      console.error('Error finding user:', err);
+      logger.error('Error finding user:', err);
       return res.status(500).json({ message: 'Internal server error' });
     }
 
@@ -83,7 +110,7 @@ app.post('/signin', (req, res) => {
     // Compare passwords
     bcrypt.compare(password, user.password, (err, isMatch) => {
       if (err) {
-        console.error('Error comparing passwords:', err);
+        logger.error('Error comparing passwords:', err);
         return res.status(500).json({ message: 'Internal server error' });
       }
 
@@ -147,7 +174,7 @@ app.put('/update-user', verifyToken, (req, res) => {
 
       connection.query('UPDATE users SET ? WHERE id = ?', [updates, userId], (err, result) => {
         if (err) {
-          console.error('Error updating user information:', err);
+          logger.error('Error updating user information:', err);
           return res.status(500).json({ message: 'Internal server error' });
         }
 
@@ -155,11 +182,11 @@ app.put('/update-user', verifyToken, (req, res) => {
       });
     })
     .catch(err => {
-      console.error('Error updating user information:', err);
+      logger.error('Error updating user information:', err);
       res.status(500).json({ message: 'Internal server error' });
     });
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  logger.info(`Server running on port ${port}`);
 });

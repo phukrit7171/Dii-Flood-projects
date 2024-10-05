@@ -1,106 +1,165 @@
 const express = require('express');
 const mysql = require('mysql');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
 const app = express();
 const port = 3000;
 
-app.use(cors());
+// Middleware
 app.use(express.json());
+app.use(cors());
 
+// MySQL connection
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: '672110154'
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'flood_dii'
 });
 
 connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL database');
+});
+
+// Signup route
+app.post('/signup', (req, res) => {
+  const { username, password, name, address, telephone } = req.body;
+
+  // Check if user already exists
+  connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
     if (err) {
-        console.error("Error connecting to MySQL:", err);
-        return;
+      console.error('Error checking existing user:', err);
+      return res.status(500).json({ message: 'Internal server error' });
     }
-    console.log("Connected to MySQL successfully");
-});
 
-app.get("/", (req, res) => {
-    res.send("Welcome to flood api");
-});
+    if (results.length > 0) {
+      return res.status(400).json({ message: 'Username already exists' });
+    }
 
-// Read all products
-app.get("/products", (req, res) => {
-    const query = "SELECT * FROM products";
-    connection.query(query, (err, results) => {
+    // Hash the password
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err) {
+        console.error('Error hashing password:', err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+
+      // Insert new user
+      const newUser = { username, password: hashedPassword, name, address, telephone };
+      connection.query('INSERT INTO users SET ?', newUser, (err, result) => {
         if (err) {
-            console.error("Error fetching products:", err);
-            res.status(500).json({ error: "Error fetching products" });
-        } else {
-            res.json(results);
+          console.error('Error creating new user:', err);
+          return res.status(500).json({ message: 'Internal server error' });
         }
+
+        res.status(201).json({ message: 'User created successfully' });
+      });
     });
+  });
 });
 
-// Create a new product
-app.post('/products', (req, res) => {
-    const { productName, price, qty } = req.body;
-    const query = "INSERT INTO products (productName, price, qty) VALUES (?, ?, ?)";
-    connection.query(query, [productName, price, qty], (err, results) => {
-        if (err) {
-            console.error('Error creating product: ', err);
-            return res.status(500).json({ message: 'Error creating product' });
-        }
-        res.status(201).json({ id: results.insertId, productName, price, qty });
+// Sign-in route
+app.post('/signin', (req, res) => {
+  const { username, password } = req.body;
+
+  // Find user
+  connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+    if (err) {
+      console.error('Error finding user:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    const user = results[0];
+
+    // Compare passwords
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err) {
+        console.error('Error comparing passwords:', err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid username or password' });
+      }
+
+      // Generate JWT token
+      const token = jwt.sign({ userId: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+      res.json({ message: 'Sign-in successful', token });
     });
+  });
 });
 
-// Read a single product
-app.get("/products/:id", (req, res) => {
-    const id = req.params.id;
-    const query = "SELECT * FROM products WHERE id = ?";
-    connection.query(query, [id], (err, results) => {
-        if (err) {
-            console.error("Error fetching product:", err);
-            res.status(500).json({ error: "Error fetching product" });
-        } else if (results.length === 0) {
-            res.status(404).json({ error: "Product not found" });
-        } else {
-            res.json(results[0]);
-        }
-    });
-});
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
 
-// Update a product
-app.put('/products/:id', (req, res) => {
-    const id = req.params.id;
-    const { productName, price, qty } = req.body;
-    const query = "UPDATE products SET productName = ?, price = ?, qty = ? WHERE id = ?";
-    connection.query(query, [productName, price, qty, id], (err, results) => {
-        if (err) {
-            console.error('Error updating product: ', err);
-            return res.status(500).json({ message: 'Error creating product' });
-        }
-        if (results.affectedRows === 0) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
-        res.json({ id, productName, price, qty });
-    });
-});
+  if (!token) {
+    return res.status(403).json({ message: 'No token provided' });
+  }
 
-// Delete a product
-app.delete('/products/:id', (req, res) => {
-    const id = req.params.id;
-    const query = "DELETE FROM products WHERE id = ?";
-    connection.query(query, [id], (err, results) => {
+  jwt.verify(token, 'your_jwt_secret', (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    req.userId = decoded.userId;
+    next();
+  });
+};
+
+// Update user information route
+app.put('/update-user', verifyToken, (req, res) => {
+  const { password, name, address, telephone } = req.body;
+  const userId = req.userId;
+
+  let updates = {};
+  let updatePromises = [];
+
+  if (password) {
+    updatePromises.push(
+      new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+          if (err) reject(err);
+          updates.password = hashedPassword;
+          resolve();
+        });
+      })
+    );
+  }
+  if (name) updates.name = name;
+  if (address) updates.address = address;
+  if (telephone) updates.telephone = telephone;
+
+  Promise.all(updatePromises)
+    .then(() => {
+      if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ message: 'No fields to update' });
+      }
+
+      connection.query('UPDATE users SET ? WHERE id = ?', [updates, userId], (err, result) => {
         if (err) {
-            console.error('Error deleting product: ', err);
-            return res.status(500).json({ message: 'Error deleting product' });
+          console.error('Error updating user information:', err);
+          return res.status(500).json({ message: 'Internal server error' });
         }
-        if (results.affectedRows === 0) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
-        res.json({ message: 'Product deleted successfully' });
+
+        res.json({ message: 'User information updated successfully' });
+      });
+    })
+    .catch(err => {
+      console.error('Error updating user information:', err);
+      res.status(500).json({ message: 'Internal server error' });
     });
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });

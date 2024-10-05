@@ -144,7 +144,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Update user information route
-app.put('/update-user', verifyToken, (req, res) => {
+app.put('/user', verifyToken, (req, res) => {
   const { password, name, address, telephone } = req.body;
   const userId = req.userId;
 
@@ -185,6 +185,20 @@ app.put('/update-user', verifyToken, (req, res) => {
       logger.error('Error updating user information:', err);
       res.status(500).json({ message: 'Internal server error' });
     });
+});
+
+// Delete account route
+app.delete('/user', verifyToken, (req, res) => {
+  const userId = req.userId;
+
+  connection.query('DELETE FROM users WHERE id = ?', [userId], (err, result) => {
+    if (err) {
+      logger.error('Error deleting user account:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    res.json({ message: 'Account deleted successfully' });
+  });
 });
 
 app.listen(port, () => {

@@ -56,7 +56,7 @@ connection.connect((err) => {
 
 // Signup route
 app.post('/signup', (req, res) => {
-  const { username, password, name, address, telephone } = req.body;
+  const { username, password, name, address, telephone, help } = req.body;
 
   // Check if user already exists
   connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
@@ -77,7 +77,7 @@ app.post('/signup', (req, res) => {
       }
 
       // Insert new user
-      const newUser = { username, password: hashedPassword, name, address, telephone };
+      const newUser = { username, password: hashedPassword, name, address, telephone, help };
       connection.query('INSERT INTO users SET ?', newUser, (err, result) => {
         if (err) {
           logger.error('Error creating new user:', err);
@@ -145,7 +145,7 @@ const verifyToken = (req, res, next) => {
 
 // Update user information route
 app.put('/user', verifyToken, (req, res) => {
-  const { password, name, address, telephone } = req.body;
+  const { password, name, address, telephone, help } = req.body;
   const userId = req.userId;
 
   let updates = {};
@@ -165,6 +165,7 @@ app.put('/user', verifyToken, (req, res) => {
   if (name) updates.name = name;
   if (address) updates.address = address;
   if (telephone) updates.telephone = telephone;
+  if (help !== undefined) updates.help = help;
 
   Promise.all(updatePromises)
     .then(() => {
@@ -198,6 +199,18 @@ app.delete('/user', verifyToken, (req, res) => {
     }
 
     res.json({ message: 'Account deleted successfully' });
+  });
+});
+
+// Get all users who need help
+app.get('/users/need-help', verifyToken, (req, res) => {
+  connection.query('SELECT id, name, address, telephone FROM users WHERE help = TRUE', (err, results) => {
+    if (err) {
+      logger.error('Error fetching users who need help:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    res.json(results);
   });
 });
 

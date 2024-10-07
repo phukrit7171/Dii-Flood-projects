@@ -1,3 +1,7 @@
+/*
+* ***** Api Part don't edit this except Phu ******* 
+*/
+
 // Helper function to make fetch requests
 async function fetchAPI(url, options) {
     try {
@@ -104,6 +108,24 @@ async function fetchAPI(url, options) {
 //   .then(data => console.log(data))
 //   .catch(error => console.error(error));
 
-//   getUsersNeedHelp()
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
+/**
+ * ********************************************************************************************************************************************************
+ */
+ 
+const showFloodPeople = async () => {
+  try {
+    const users = await getUsersNeedHelp();
+    const usersList = document.getElementById('usersList');
+    usersList.innerHTML = ''; // Clear previous list
+
+    users.forEach(user => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${user.name} - ${user.address} - ${user.telephone}`;
+      usersList.appendChild(listItem);
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+showFloodPeople();

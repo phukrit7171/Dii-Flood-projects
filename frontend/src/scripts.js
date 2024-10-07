@@ -1,5 +1,3 @@
-const { NULL } = require("mysql/lib/protocol/constants/types");
-
 // Helper function to make fetch requests
 async function fetchAPI(url, options) {
     try {
@@ -98,7 +96,7 @@ async function fetchAPI(url, options) {
 //     .then(data => console.log(data))
 //     .catch(error => console.error(error));
   
-// updateUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTcyODMyMzUzMiwiZXhwIjoxNzI4MzI3MTMyfQ.n10NGxJIcWLa_mt0LmTnI6lc2g1ZdTFb1UCv0MDS2yo', { help: NULL})
+// updateUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTcyODMyMzUzMiwiZXhwIjoxNzI4MzI3MTMyfQ.n10NGxJIcWLa_mt0LmTnI6lc2g1ZdTFb1UCv0MDS2yo', { help: false})
 // .then(data => console.log(data))
 // .catch(error => console.error(error));
 

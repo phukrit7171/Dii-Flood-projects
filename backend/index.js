@@ -203,7 +203,7 @@ app.delete('/user', verifyToken, (req, res) => {
 });
 
 // Get all users who need help
-app.get('/users/need-help', verifyToken, (req, res) => {
+app.get('/users/need-help',  (req, res) => {
   connection.query('SELECT id, name, address, telephone FROM users WHERE help = TRUE', (err, results) => {
     if (err) {
       logger.error('Error fetching users who need help:', err);

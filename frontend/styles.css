@@ -1,0 +1,221 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #86AEBB;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #DBE9EC;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    background: #6C919C;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+    transition: background-color 0.3s;
+}
+
+.tab.active {
+    background: #345c7d;
+}
+
+.form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #345c7d;
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+}
+
+.form input,
+.form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 80px;
+}
+
+.profile {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.profile img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.image-placeholder {
+    margin: 20px 30px;
+    text-align: center;
+
+}
+
+.image-placeholder img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.secondary-button {
+    background-color: #86AEBB;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+}
+
+.secondary-button:hover {
+    background-color: #6C919C;
+}
+
+.hidden {
+    display: none;
+}
+
+.spalsh-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Stack children vertically */
+    justify-content: center;
+    align-items: center;
+    background-color: #DBE9EC;
+    z-index: 1000;
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        display: none;
+    }
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    /* Space between logo and loading */
+}
+
+/* ... rest of your CSS ... */
+
+.logo img {
+    max-width: 200px;
+    /* Adjust logo size as needed */
+}
+
+.loading {
+    display: flex;
+}
+
+.circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #3498db;
+    /* Example loading circle color */
+    margin: 0 5px;
+    animation: bounce 1s infinite ease-in-out;
+}
+
+.circle:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.circle:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ... your existing styles ... */
+
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #264561; /* Example background color */
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.bottom-navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around; /* Distribute items evenly */
+}
+
+.bottom-navbar li a {
+    text-decoration: none;
+    color: #ffffff; /* Example text color */
+    font-weight: bold;
+}

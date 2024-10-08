@@ -1,6 +1,6 @@
 // scripts.js
 
-import { getUsersNeedHelp } from './api.js';
+import { getUsersNeedHelp,getUserData , signin} from './api.js';
 
 const showFloodPeople = async () => {
   try {
@@ -24,4 +24,26 @@ const showFloodPeople = async () => {
   }
 };
 
-showFloodPeople();
+const showUserData = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Handle case where user is not logged in
+      return;
+    }
+
+    const userData = await getUserData(token);
+    const userDataContainer = document.getElementById('userData');
+    userDataContainer.innerHTML = `
+      <h2>User Information</h2>
+      <p><strong>Name:</strong> ${userData.name}</p>
+      <p><strong>Help:</strong> ${userData.help}</p>
+      <p><strong>Address:</strong> ${userData.address}</p>
+      <p><strong>Telephone:</strong> ${userData.telephone}</p>
+    `;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+

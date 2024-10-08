@@ -46,4 +46,10 @@ const showUserData = async () => {
   }
 };
 
+//test
+// signin({"username":"phu","password":"123"}).then(data => {
+//   console.log(data);
+//   showUserData();
+// });
 
+// showFloodPeople();

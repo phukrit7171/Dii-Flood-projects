@@ -1,0 +1,79 @@
+body{
+    background-color: #DBE9EC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+.บริจาค h1{
+    color: #2B557D;
+    text-align: center;
+}
+/* .box_btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.box_btn button{
+    background-color: #264561;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25%;
+    font-size: 20px;
+    width: 50%;
+    border-color: #264561;
+    border-radius: 20px;
+    padding: 15px;
+    margin: 20px;
+}
+.box_btn button:hover{
+    background-color: #86AEBB;
+    border-color: #86AEBB;
+}
+.box_btn button:active {
+    color: #264561;
+} */
+ img{
+    height: max-content;
+    margin: 0px 1px;
+ }
+ .logo{
+    width: 26.6%;
+    height: 60%;
+}
+.Donate{
+    min-width: 40%;
+    padding: 0px 20px 0px 20px;
+    margin: 10px 150px 50px 150px;
+    border-radius: 20px;
+    font-size: 10px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    background-color: #86AEBB;
+}
+.Bar{
+    min-width: 40%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px 0px 20px;
+    margin: 10px 50px 50px 50px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    background-color: #264561;
+}
+.Bar img{
+    margin: 50px 0px;
+    width: 30px;
+    height: 30px;
+ }

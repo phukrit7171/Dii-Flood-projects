@@ -1,0 +1,38 @@
+body{
+    background-color: #DBE9EC;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+.Bar{
+    min-width: 40%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px 0px 20px;
+    margin: 10px 50px 50px 50px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    background-color: #264561;
+}
+.Bar img{
+    margin: 50px 0px;
+    width: 30px;
+    height: 30px;
+ }
+h1{
+    text-align: center;
+    color: #2B557D;
+}
+.logo
+{
+    padding: 50px;
+    width: auto;
+    height: 60vh;
+}

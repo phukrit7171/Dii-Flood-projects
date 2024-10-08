@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #DBE9EC;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.back-button, .notification-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #4a4a4a;
+}
+.add-button ,.minus-button {
+    background-color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #0077be;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    
+}
+h1, h2 {
+    color: #0077be;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+#usersList {
+    list-style-type: none;
+    padding: 0;
+}
+#usersList li {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+#usersList li strong {
+    display: block;
+    margin-bottom: 5px;
+}
+#usersList li ul {
+    list-style-type: none;
+    padding: 0;
+}
+#usersList li ul li {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 5px;
+}
+#userData {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+.nav-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #4a4a4a;
+}
+h1{
+    text-align: center;
+}
+
+a{
+    text-decoration: none ;
+    text-decoration-line: none;
+}
+#usersList{
+    margin-bottom: 5px;
+}
+.Bar {
+    min-width: 40%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px 0px 20px;
+    margin: 10px 50px 50px 50px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    background-color: #264561;
+}
+.Bar img {
+    margin: 50px 0px;
+    width: 30px;
+    height: 30px;
+}

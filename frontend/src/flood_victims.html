@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายชื่อผู้ประสบภัยน้ำท่วม</title>
+ <link rel="stylesheet" href="./flood_victims.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a class="back-button" href="./index.html">&#10094;</a>
+        </div>
+        <button class="add-button" onclick="addVictim()" >+ เพิ่มรายชื่อของคุณ</button>
+        <button class="minus-button" onclick="delVictim()">- ลบรายชื่อของคุณ</button>
+        <h1>รายชื่อผู้ประสบภัยน้ำท่วม</h1><hr>
+        <ul id="usersList">
+            <!-- User list will be populated here by JavaScript -->
+        </ul>
+    </div>
+    <div class="Bar">
+        <a href="index.html"><img src="img/home.png" alt="home"></a>
+        <a href="map.html"><img src="img/Mymap.png" alt="Mymap"></a>
+       <a href="login.html"><img src="img/User.png" alt="Profile"></a> 
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/scripts.js"></script>
+</body>
+</html>

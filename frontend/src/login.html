@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('register')">ลงชื่อเข้าใช้</button>
+            <button class="tab" onclick="switchTab('login')">เข้าสู่ระบบ</button>
+        </div>
+        <form id="register-form" class="form">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username">
+            
+            <label for="password">password</label>
+            <input type="password" id="password" name="password">
+            
+            <label for="name">ชื่อ</label>
+            <input type="text" id="name" name="name">
+            
+            <label for="phone">เบอร์</label>
+            <input type="text" id="phone" name="phone">
+            
+            <label for="address">ที่อยู่</label>
+            <textarea id="address" name="address"></textarea>
+            
+            <div class="button-container">
+                <button type="button" onclick="window.location.href='index.html'" class="secondary-button cancel">ยกเลิก</button>
+                <button type="submit" class="secondary-button confirm">ยืนยัน</button>
+            </div>
+        </form>
+
+        <form id="login-form" class="form hidden">
+            <label for="username-login">username</label>
+            <input type="text" id="username-login" name="username">
+            
+            <label for="password-login">password</label>
+            <input type="password" id="password-login" name="password">
+            
+            <div class="button-container">
+                <button type="button" onclick="window.location.href='index.html'" class="secondary-button cancel">ยกเลิก</button>
+                <button type="submit" class="secondary-button confirm">ยืนยัน</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            const registerForm = document.getElementById('register-form');
+            const loginForm = document.getElementById('login-form');
+            const tabs = document.querySelectorAll('.tab');
+
+            if (tab === 'register') {
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
+    </script>
+    <script src="./js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

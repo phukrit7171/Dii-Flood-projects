@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Account.css"> 
+    <title>profile</title>
+</head>
+<body>
+    <div>
+        <h1>ข้อมูลบัญชี</h1>
+    </div>
+    <div class="image-placeholder">
+            <img src="img/Profile.png" alt="Profile">
+    </div>
+    <div>
+        <!-- <label for="name">ชื่อ</label> -->
+        <input type="text" id="name" placeholder="ชื่อ">
+        <!-- <label for="phone">เบอร์</label> -->
+        <input type="text" id="phone" placeholder="เบอร์โทรศัพท์">
+        <!-- <label for="address">ที่อยู่</label> -->
+        <input type="text" id="address" placeholder="ที่อยู่">
+    </div>
+    <div>
+        <button id="update-form" onclick="handleUpdateUserData()">แก้ไข</button>
+        <button onclick="delAct()">ลบบัญชี</button>
+    </div>
+    <div class="exit">
+        <button onclick="logout()">ออกจากระบบ</button>
+    </div>
+    <div class="Bar">
+        <a href="index.html"><img   src="img/home.png" alt="home"></a>
+        <a href="map.html"><img   src="img/Mymap.png" alt="Mymap"></a>
+       <a href="login.html"><img   src="img/User.png" alt="Profile"></a> 
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/scripts.js"></script>
+</body>
+</html>

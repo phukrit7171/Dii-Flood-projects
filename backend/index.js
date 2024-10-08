@@ -214,6 +214,25 @@ app.get('/users/need-help',  (req, res) => {
   });
 });
 
+// Get user information route
+app.get('/user', verifyToken, (req, res) => {
+  const userId = req.userId;
+
+  connection.query('SELECT id, username, name, address, telephone, help FROM users WHERE id = ?', [userId], (err, results) => {
+    if (err) {
+      logger.error('Error fetching user information:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const user = results[0];
+    res.json(user);
+  });
+});
+
 app.listen(port, () => {
   logger.info(`Server running on port ${port}`);
 });

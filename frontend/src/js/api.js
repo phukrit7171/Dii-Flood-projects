@@ -1,6 +1,4 @@
-/*
-* ***** Api Part don't edit this except Phu ******* 
-*/
+// api.js
 
 // Helper function to make fetch requests
 async function fetchAPI(url, options) {
@@ -20,7 +18,7 @@ async function fetchAPI(url, options) {
   const baseUrl = 'http://localhost:3000';
   
   // 1. Signup
-  async function signup(userData) {
+  export async function signup(userData) {
     const url = `${baseUrl}/signup`;
     const options = {
       method: 'POST',
@@ -33,7 +31,7 @@ async function fetchAPI(url, options) {
   }
   
   // 2. Sign-in
-  async function signin(credentials) {
+  export async function signin(credentials) {
     const url = `${baseUrl}/signin`;
     const options = {
       method: 'POST',
@@ -51,7 +49,7 @@ async function fetchAPI(url, options) {
   }
   
   // 3. Update User Information
-  async function updateUser(token, userData) {
+  export async function updateUser(token, userData) {
     const url = `${baseUrl}/user`;
     const options = {
       method: 'PUT',
@@ -65,7 +63,7 @@ async function fetchAPI(url, options) {
   }
   
   // 4. Delete Account
-  async function deleteAccount(token) {
+  export async function deleteAccount(token) {
     const url = `${baseUrl}/user`;
     const options = {
       method: 'DELETE',
@@ -77,7 +75,7 @@ async function fetchAPI(url, options) {
   }
   
   // 5. Get All Users Who Need Help
-  async function getUsersNeedHelp() {
+  export async function getUsersNeedHelp() {
     const url = `${baseUrl}/users/need-help`;
     const options = {
       method: 'GET',
@@ -86,46 +84,7 @@ async function fetchAPI(url, options) {
   }
 
   // 6. Sign-out
-  async function signout() {
+  export async function signout() {
     localStorage.removeItem('token');
     // You might want to redirect the user to a login page or refresh the page here
   }
-  
- // Example usage:
-//   signup({ username: 'testuser', password: 'testpass', name: 'Test User', address: '123 Test St', telephone: '1234567890', help: false })
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
-  
-//   signin({ username: 'phu', password: '123' })
-//     .then(data => console.log(data))
-//     .catch(error => console.error(error));
-  
-// updateUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImlhdCI6MTcyODMyMzUzMiwiZXhwIjoxNzI4MzI3MTMyfQ.n10NGxJIcWLa_mt0LmTnI6lc2g1ZdTFb1UCv0MDS2yo', { help: false})
-// .then(data => console.log(data))
-// .catch(error => console.error(error));
-
-// deleteAccount('your_jwt_token')
-//   .then(data => console.log(data))
-//   .catch(error => console.error(error));
-
-/**
- * ********************************************************************************************************************************************************
- */
- 
-const showFloodPeople = async () => {
-  try {
-    const users = await getUsersNeedHelp();
-    const usersList = document.getElementById('usersList');
-    usersList.innerHTML = ''; // Clear previous list
-
-    users.forEach(user => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${user.name} - ${user.address} - ${user.telephone}`;
-      usersList.appendChild(listItem);
-    });
-  } catch (error) {
-    console.error('Error fetching users:', error);
-  }
-};
-
-showFloodPeople();

@@ -22,7 +22,9 @@ const api = {
   signup: async (userData) => {
     return fetchAPI(`${baseUrl}/signup`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(userData),
     });
   },
@@ -58,7 +60,13 @@ const api = {
   },
 
   getUsersNeedHelp: async () => {
-    return fetchAPI(`${baseUrl}/users/need-help`, { method: "GET" });
+    return fetchAPI(`${baseUrl}/users/need-help`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": 1
+      }
+    });
   },
 
   signout: () => {
@@ -69,7 +77,10 @@ const api = {
     const token = localStorage.getItem("token");
     return fetchAPI(`${baseUrl}/user`, {
       method: "GET",
-      headers: { Authorization: token },
+      headers: { 
+        Authorization: token ,
+        "ngrok-skip-browser-warning": 1
+      },
     });
   },
 };
@@ -241,9 +252,9 @@ const handlers = {
     }
   },
 
-  
+
 };
-const handleUpdateUserData  = async () => {
+const handleUpdateUserData = async () => {
   const userData = {
     name: document.getElementById("name").value,
     telephone: document.getElementById("phone").value,
@@ -288,4 +299,6 @@ window.logout = handlers.logout;
 window.delAct = handlers.delAct;
 
 // Initialize UI
-ui.showFloodPeople();
+window.onload = async () => {
+  ui.showFloodPeople();
+};

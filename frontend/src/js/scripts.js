@@ -13,7 +13,9 @@ async function fetchAPI(url, options) {
   }
 }
 
-const baseUrl = "http://localhost:3000";
+const productionUrl = "https://weevil-excited-precisely.ngrok-free.app";
+const developmentUrl = "http://localhost:3000";
+const baseUrl = productionUrl; // or developmentUrl
 
 // API functions
 const api = {

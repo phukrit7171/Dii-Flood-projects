@@ -299,6 +299,4 @@ window.logout = handlers.logout;
 window.delAct = handlers.delAct;
 
 // Initialize UI
-window.onload = async () => {
-  ui.showFloodPeople();
-};
+ui.showFloodPeople();
